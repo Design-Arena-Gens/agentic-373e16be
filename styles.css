@@ -1,0 +1,580 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+:root {
+  color-scheme: only light;
+  --bg: #111;
+  --fg: #f4f4f4;
+  --mid: #888;
+  --accent: #e0e0e0;
+  --shadow: rgba(0, 0, 0, 0.35);
+  --sketch-line: rgba(255, 255, 255, 0.85);
+  --stroke-width: 6px;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  font-family: "Shadows Into Light", "Permanent Marker", Arial, sans-serif;
+  background: var(--bg);
+  color: var(--fg);
+  min-height: 100%;
+}
+
+body {
+  overflow: hidden;
+}
+
+.grain-overlay {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120' viewBox='0 0 120 120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='1.2' numOctaves='4' stitchTiles='stitch'/%3E%3Cfilter%3E%3C/svg%3E");
+  mix-blend-mode: soft-light;
+  opacity: 0.05;
+  animation: grain 12s steps(10) infinite;
+}
+
+@keyframes grain {
+  0% {
+    transform: translate(0, 0);
+  }
+  25% {
+    transform: translate(-5%, -5%);
+  }
+  50% {
+    transform: translate(5%, -5%);
+  }
+  75% {
+    transform: translate(-5%, 5%);
+  }
+  100% {
+    transform: translate(0, 0);
+  }
+}
+
+.page-container {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+}
+
+.landing,
+.game {
+  width: min(900px, 100%);
+  background: repeating-linear-gradient(
+      120deg,
+      rgba(255, 255, 255, 0.06),
+      rgba(255, 255, 255, 0.06) 8px,
+      rgba(255, 255, 255, 0) 8px,
+      rgba(255, 255, 255, 0) 16px
+    ),
+    rgba(0, 0, 0, 0.45);
+  border: 3px solid var(--fg);
+  border-radius: 24px;
+  padding: clamp(2rem, 2vw + 1.5rem, 4rem);
+  box-shadow: 0 40px 80px -40px var(--shadow);
+  transition: transform 0.6s ease, opacity 0.6s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.landing::after,
+.game::after {
+  content: "";
+  position: absolute;
+  inset: 1rem;
+  border: 2px solid rgba(255, 255, 255, 0.15);
+  border-radius: 18px;
+  pointer-events: none;
+  transform: rotate(-1deg);
+}
+
+.landing.hidden,
+.game.hidden {
+  opacity: 0;
+  transform: translateY(40px) scale(0.98);
+  pointer-events: none;
+}
+
+.landing-content {
+  display: grid;
+  gap: clamp(1.5rem, 2vw + 1rem, 3rem);
+  text-align: center;
+  align-items: center;
+}
+
+.title {
+  margin: 0;
+  font-size: clamp(3rem, 4vw + 1.5rem, 6rem);
+  line-height: 1;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  text-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
+  position: relative;
+}
+
+.title span {
+  font-family: "Permanent Marker", cursive;
+  color: var(--accent);
+}
+
+.subtitle {
+  font-size: clamp(1.2rem, 2vw + 0.6rem, 2rem);
+  margin: 0;
+  color: var(--accent);
+  letter-spacing: 1px;
+}
+
+.mode-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  align-items: center;
+}
+
+.mode-btn {
+  position: relative;
+  padding: 1rem 2.5rem;
+  font-size: 1.4rem;
+  font-family: "Permanent Marker", cursive;
+  text-transform: uppercase;
+  background: transparent;
+  color: var(--fg);
+  border: none;
+  cursor: pointer;
+  letter-spacing: 1.5px;
+  overflow: hidden;
+  transition: transform 0.3s ease;
+}
+
+.mode-btn .btn-outline {
+  position: absolute;
+  inset: 0;
+  border: 2px solid var(--fg);
+  border-radius: 18px;
+  transform: rotate(-1deg);
+  transition: transform 0.3s ease, background-color 0.3s ease;
+}
+
+.mode-btn::after {
+  content: "";
+  position: absolute;
+  inset: 4px;
+  border: 2px dashed rgba(255, 255, 255, 0.4);
+  border-radius: 14px;
+  transform: rotate(2deg);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.mode-btn:hover {
+  transform: translateY(-4px) rotate(-1deg);
+}
+
+.mode-btn:hover .btn-outline {
+  background: rgba(255, 255, 255, 0.05);
+  transform: rotate(1deg);
+}
+
+.mode-btn:hover::after {
+  opacity: 1;
+}
+
+.game {
+  display: grid;
+  gap: 2rem;
+}
+
+.game-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.back-btn,
+.reset-btn {
+  background: transparent;
+  border: 2px solid var(--fg);
+  border-radius: 14px;
+  padding: 0.75rem 1.75rem;
+  color: var(--fg);
+  font-family: "Permanent Marker", cursive;
+  letter-spacing: 1px;
+  cursor: pointer;
+  transition: transform 0.3s ease, background-color 0.3s ease;
+}
+
+.back-btn:hover,
+.reset-btn:hover {
+  transform: translateY(-3px);
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.scoreboard {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  padding: 0.75rem 1.5rem;
+  border: 2px solid var(--fg);
+  border-radius: 16px;
+  background: rgba(0, 0, 0, 0.25);
+  box-shadow: 0 12px 24px -16px var(--shadow);
+}
+
+.score-team {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-size: 1.4rem;
+}
+
+.score-team .label {
+  font-family: "Permanent Marker", cursive;
+  font-size: 1.5rem;
+}
+
+.turn-indicator {
+  text-align: center;
+  font-size: 1.5rem;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  position: relative;
+}
+
+.turn-indicator::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: -8px;
+  width: 60px;
+  height: 3px;
+  background: var(--fg);
+  transform: translateX(-50%);
+  animation: underline-pulse 1.6s ease-in-out infinite;
+}
+
+@keyframes underline-pulse {
+  0%,
+  100% {
+    transform: translateX(-50%) scaleX(0.8);
+    opacity: 0.5;
+  }
+  50% {
+    transform: translateX(-50%) scaleX(1.2);
+    opacity: 1;
+  }
+}
+
+.board {
+  position: relative;
+  width: min(520px, 90vw);
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.5rem;
+}
+
+.board-enter {
+  animation: board-bounce 0.6s ease;
+}
+
+@keyframes board-bounce {
+  0% {
+    transform: scale(0.92);
+    opacity: 0;
+  }
+  60% {
+    transform: scale(1.05);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.grid-bg {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: stretch;
+  pointer-events: none;
+}
+
+.grid-line {
+  position: absolute;
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0) 0%,
+    var(--sketch-line) 45%,
+    rgba(255, 255, 255, 0.8) 55%,
+    rgba(255, 255, 255, 0) 100%
+  );
+  filter: drop-shadow(0 4px 0 rgba(0, 0, 0, 0.1));
+  animation: draw-line 1s ease forwards;
+}
+
+.line-h {
+  height: 4px;
+  left: 6%;
+  right: 6%;
+}
+
+.line-h-1 {
+  top: 33%;
+  animation-delay: 0.2s;
+}
+
+.line-h-2 {
+  top: 66%;
+  animation-delay: 0.4s;
+}
+
+.line-v {
+  width: 4px;
+  top: 6%;
+  bottom: 6%;
+}
+
+.line-v-1 {
+  left: 33%;
+  animation-delay: 0.6s;
+}
+
+.line-v-2 {
+  left: 66%;
+  animation-delay: 0.8s;
+}
+
+@keyframes draw-line {
+  0% {
+    transform: scaleX(0);
+    opacity: 0;
+  }
+  100% {
+    transform: scaleX(1);
+    opacity: 1;
+  }
+}
+
+.cell {
+  aspect-ratio: 1 / 1;
+  border: none;
+  background: radial-gradient(
+      circle at top,
+      rgba(255, 255, 255, 0.05) 0%,
+      rgba(255, 255, 255, 0) 45%
+    ),
+    rgba(0, 0, 0, 0.4);
+  border-radius: 18px;
+  position: relative;
+  overflow: hidden;
+  box-shadow: inset 0 0 0 2px rgba(255, 255, 255, 0.08);
+  cursor: pointer;
+  transition: transform 0.2s ease, background 0.3s ease;
+}
+
+.cell:hover {
+  transform: translateY(-3px);
+  background: rgba(0, 0, 0, 0.35);
+}
+
+.cell::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(255, 255, 255, 0.05);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.cell:hover::before {
+  opacity: 1;
+}
+
+.cell.pop {
+  animation: cell-pop 0.28s ease;
+}
+
+@keyframes cell-pop {
+  0% {
+    transform: scale(0.85);
+  }
+  60% {
+    transform: scale(1.08);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.mark {
+  position: absolute;
+  inset: 20%;
+  display: block;
+  pointer-events: none;
+}
+
+.mark svg {
+  width: 100%;
+  height: 100%;
+}
+
+.mark path,
+.mark line,
+.mark circle {
+  stroke: var(--fg);
+  stroke-width: 9;
+  fill: none;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-dasharray: 220;
+  stroke-dashoffset: 220;
+  animation: sketch-draw 0.4s ease forwards;
+  filter: drop-shadow(0 0 6px rgba(255, 255, 255, 0.2));
+}
+
+@keyframes sketch-draw {
+  0% {
+    stroke-dashoffset: 220;
+    opacity: 0;
+  }
+  30% {
+    opacity: 1;
+  }
+  100% {
+    stroke-dashoffset: 0;
+    opacity: 1;
+  }
+}
+
+.mark.x path:nth-child(2) {
+  animation-delay: 0.12s;
+}
+
+.mark.o circle {
+  stroke-dasharray: 320;
+  stroke-dashoffset: 320;
+}
+
+.result {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.7);
+  display: grid;
+  place-items: center;
+  z-index: 20;
+  animation: fade-in 0.5s ease forwards;
+}
+
+.result.hidden {
+  display: none;
+}
+
+.result-card {
+  background: rgba(0, 0, 0, 0.8);
+  border: 3px solid var(--fg);
+  border-radius: 20px;
+  padding: 2rem 3rem;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 30px 60px -30px var(--shadow);
+}
+
+.result-card::after {
+  content: "";
+  position: absolute;
+  inset: 0.75rem;
+  border: 2px dashed rgba(255, 255, 255, 0.2);
+  border-radius: 16px;
+  transform: rotate(-2deg);
+}
+
+.result-text {
+  font-size: 2rem;
+  margin: 0 0 1.5rem;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+
+.result-actions {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.play-again-btn,
+.menu-btn {
+  background: transparent;
+  border: 2px solid var(--fg);
+  border-radius: 14px;
+  padding: 0.75rem 1.75rem;
+  color: var(--fg);
+  font-family: "Permanent Marker", cursive;
+  letter-spacing: 1px;
+  cursor: pointer;
+  transition: transform 0.3s ease, background-color 0.3s ease;
+}
+
+.play-again-btn:hover,
+.menu-btn:hover {
+  transform: translateY(-3px);
+  background: rgba(255, 255, 255, 0.08);
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.win-line {
+  position: absolute;
+  background: var(--fg);
+  transform-origin: center;
+  height: 6px;
+  border-radius: 999px;
+  box-shadow: 0 0 16px rgba(255, 255, 255, 0.4);
+  animation: win-sweep 0.5s ease forwards;
+}
+
+@keyframes win-sweep {
+  0% {
+    width: 0;
+    opacity: 0;
+  }
+  100% {
+    width: 100%;
+    opacity: 1;
+  }
+}
+
+@media (max-width: 720px) {
+  .landing,
+  .game {
+    padding: clamp(1.5rem, 4vw + 1rem, 2.5rem);
+  }
+
+  .scoreboard {
+    width: 100%;
+    justify-content: space-around;
+  }
+
+  .result-card {
+    width: min(90vw, 420px);
+  }
+}

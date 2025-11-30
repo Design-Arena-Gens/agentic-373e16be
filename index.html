@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sketch Tac Toe</title>
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Shadows+Into+Light&family=Permanent+Marker&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <div class="grain-overlay"></div>
+    <div class="page-container">
+      <section class="landing" id="landing">
+        <div class="landing-content">
+          <h1 class="title">Sketch<br /><span>Tic Tac Toe</span></h1>
+          <p class="subtitle">
+            Pick your challenge and draw your victory.
+          </p>
+          <div class="mode-buttons">
+            <button class="mode-btn" data-mode="cpu">
+              <span class="btn-outline"></span>
+              vs Computer
+            </button>
+            <button class="mode-btn" data-mode="local">
+              <span class="btn-outline"></span>
+              Local Multiplayer
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <section class="game hidden" id="game">
+        <header class="game-header">
+          <button class="back-btn" id="back-btn" aria-label="Back to menu">
+            ← Menu
+          </button>
+          <div class="scoreboard">
+            <div class="score-team">
+              <span class="label">X</span>
+              <span class="score" id="score-x">0</span>
+            </div>
+            <div class="score-team">
+              <span class="label">O</span>
+              <span class="score" id="score-o">0</span>
+            </div>
+          </div>
+          <button class="reset-btn" id="reset-btn">Reset Board</button>
+        </header>
+
+        <div class="turn-indicator" id="turn-indicator">
+          X's turn
+        </div>
+
+        <div class="board" id="board" role="grid" aria-label="Tic Tac Toe Board">
+          <div class="grid-bg">
+            <div class="grid-line line-h line-h-1"></div>
+            <div class="grid-line line-h line-h-2"></div>
+            <div class="grid-line line-v line-v-1"></div>
+            <div class="grid-line line-v line-v-2"></div>
+          </div>
+          <button class="cell" data-index="0" role="gridcell" aria-label="Cell 1"></button>
+          <button class="cell" data-index="1" role="gridcell" aria-label="Cell 2"></button>
+          <button class="cell" data-index="2" role="gridcell" aria-label="Cell 3"></button>
+          <button class="cell" data-index="3" role="gridcell" aria-label="Cell 4"></button>
+          <button class="cell" data-index="4" role="gridcell" aria-label="Cell 5"></button>
+          <button class="cell" data-index="5" role="gridcell" aria-label="Cell 6"></button>
+          <button class="cell" data-index="6" role="gridcell" aria-label="Cell 7"></button>
+          <button class="cell" data-index="7" role="gridcell" aria-label="Cell 8"></button>
+          <button class="cell" data-index="8" role="gridcell" aria-label="Cell 9"></button>
+        </div>
+
+        <div class="result hidden" id="result">
+          <div class="result-card">
+            <p class="result-text" id="result-text"></p>
+            <div class="result-actions">
+              <button class="play-again-btn" id="play-again-btn">
+                Play Again
+              </button>
+              <button class="menu-btn" id="menu-btn">
+                Menu
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+    <script src="./script.js"></script>
+  </body>
+</html>
